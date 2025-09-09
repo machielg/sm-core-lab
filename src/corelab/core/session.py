@@ -10,7 +10,7 @@ class CoreLabSession:
     def __init__(self, framework: str, project_name: str, default_folder: str | None = None, create_run_folder: bool = False):
         self.framework = framework
         self.project_name = project_name
-        self.session_timestamp = time.strftime("%Y-%m-%dT%H-%M-%S", time.gmtime())
+        self.session_timestamp = self._generate_timestamp()
 
         if create_run_folder:
             bucket_prefix = s3_path_join(default_folder if default_folder else "", self.session_timestamp)
@@ -48,6 +48,13 @@ class CoreLabSession:
 
         return s3_path_join("s3://", bucket, prefix)
 
+    def update_timestamp(self):
+        self.session_timestamp = self._generate_timestamp()
+
+    @staticmethod
+    def _generate_timestamp() -> str:
+        return time.strftime("%Y-%m-%dT%H-%M-%S", time.gmtime())
+
     @property
     def transform_output_s3_uri(self):
         return s3_path_join(self.base_s3_uri, "transform")
@@ -72,13 +79,25 @@ class CoreLabSession:
         return '-'.join([self.framework, "tune", self.session_timestamp])
 
     @property
-    def tuning_job_definition_name(self):
-        return '-'.join([self.framework, "definition", self.session_timestamp])
+    def transform_job_name(self):
+        return "-".join([self.project_name, self.framework, "prediction", self.session_timestamp])
 
     @property
     def model_name(self):
-        return "-".join([self.project_name, self.framework, self.session_timestamp])
+        return "-".join([self.project_name, self.framework])
 
     @property
-    def transform_job_name(self):
-        return "-".join([self.project_name, self.framework, "prediction", self.session_timestamp])
+    def endpoint_config_name(self):
+        return "-".join([self.project_name, self.framework, "endpoint-config"])
+
+    @property
+    def endpoint_name(self):
+        return "-".join([self.project_name, self.framework, "endpoint"])
+
+    @property
+    def serverless_endpoint_config_name(self):
+        return "-".join([self.project_name, self.framework, "serverless-config"])
+
+    @property
+    def serverless_endpoint_name(self):
+        return "-".join([self.project_name, self.framework, "serverless-endpoint"])

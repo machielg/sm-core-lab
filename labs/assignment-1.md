@@ -1,12 +1,16 @@
 
-## Assignment
+## Assignment 1
 1. Read the xgboost.ipynb notebook
-1. Rewrite the code to use SageMaker Core to train the xgboost model using a SageMaker Training job.
+1. Rewrite/ammend the code to use SageMaker Core to *train* the xgboost model using a SageMaker Training job.
 
+## Assignment 2
+1. Add a second job of type 'hyperparameter training job' which explorers a parameters space to find the best model parameters
 
+## Assignment 3
+1. Add a batch transform job based on either the training job or hyper parameter job run 'best_training_job'
 
 ## Outtakes
-Training jobs can be used in SageMaker Studio and from local notebooks. 
+Training, Tuning and Batch prediction jobs can be used in SageMaker Studio _and_ from local notebooks. 
 It offloads compute, possibly with more (GPU) resources than your local laptop or notebook instance, with some minimal overhead but with added traceability and clarity.
 Metrics are visible and can be queried across runs. This gives you a basic level of MLOps maturity.
 

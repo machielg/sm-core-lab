@@ -1,0 +1,98 @@
+Instance Type,Family,vCPU,Memory (GB),Hourly Price (USD),Notes
+ml.c4.large,Compute Optimized,2,3.75,0.114,
+ml.c4.xlarge,Compute Optimized,4,7.5,0.227,
+ml.c4.2xlarge,Compute Optimized,8,15,0.454,
+ml.c4.4xlarge,Compute Optimized,16,30,0.909,
+ml.c4.8xlarge,Compute Optimized,36,60,1.591,Estimated based on pattern
+ml.c5.large,Compute Optimized,2,4,0.097,
+ml.c5.xlarge,Compute Optimized,4,8,0.194,
+ml.c5.2xlarge,Compute Optimized,8,16,0.388,
+ml.c5.4xlarge,Compute Optimized,16,32,0.776,
+ml.c5.9xlarge,Compute Optimized,36,72,1.53,
+ml.c5.18xlarge,Compute Optimized,72,144,3.06,
+ml.c6i.large,Compute Optimized,2,4,0.097,
+ml.c6i.xlarge,Compute Optimized,4,8,0.194,
+ml.c6i.2xlarge,Compute Optimized,8,16,0.388,
+ml.c6i.4xlarge,Compute Optimized,16,32,0.776,
+ml.c6i.8xlarge,Compute Optimized,32,64,1.36,
+ml.c6i.12xlarge,Compute Optimized,48,96,2.04,
+ml.c6i.16xlarge,Compute Optimized,64,128,2.72,
+ml.c6i.24xlarge,Compute Optimized,96,192,4.08,
+ml.c6i.32xlarge,Compute Optimized,128,256,5.44,
+ml.c7i.large,Compute Optimized,2,4,0.1018,
+ml.c7i.xlarge,Compute Optimized,4,8,0.2037,
+ml.c7i.2xlarge,Compute Optimized,8,16,0.4074,
+ml.c7i.4xlarge,Compute Optimized,16,32,0.714,
+ml.c7i.8xlarge,Compute Optimized,32,64,1.428,
+ml.c7i.12xlarge,Compute Optimized,48,96,2.142,
+ml.c7i.16xlarge,Compute Optimized,64,128,2.856,
+ml.c7i.24xlarge,Compute Optimized,96,192,4.284,
+ml.c7i.48xlarge,Compute Optimized,192,384,8.568,
+ml.g4dn.xlarge,GPU Instance,4,16,0.658,1 GPU
+ml.g4dn.2xlarge,GPU Instance,8,32,0.94,1 GPU
+ml.g4dn.4xlarge,GPU Instance,16,64,1.204,1 GPU
+ml.g4dn.8xlarge,GPU Instance,32,128,2.176,1 GPU
+ml.g4dn.12xlarge,GPU Instance,48,192,3.912,4 GPU
+ml.g4dn.16xlarge,GPU Instance,64,256,4.352,1 GPU
+ml.g5.xlarge,GPU Instance,4,16,1.258,1 GPU
+ml.g5.2xlarge,GPU Instance,8,32,1.5156,1 GPU
+ml.g5.4xlarge,GPU Instance,16,64,1.624,1 GPU
+ml.g5.8xlarge,GPU Instance,32,128,2.448,1 GPU
+ml.g5.12xlarge,GPU Instance,48,192,5.672,4 GPU
+ml.g5.16xlarge,GPU Instance,64,256,4.096,1 GPU
+ml.g5.24xlarge,GPU Instance,96,384,8.144,4 GPU
+ml.g5.48xlarge,GPU Instance,192,768,16.288,8 GPU
+ml.inf2.xlarge,Machine Learning ASIC,4,16,1.1373,1 Inferentia2
+ml.inf2.8xlarge,Machine Learning ASIC,32,128,1.9679,1 Inferentia2
+ml.inf2.24xlarge,Machine Learning ASIC,96,384,6.4906,6 Inferentia2
+ml.inf2.48xlarge,Machine Learning ASIC,192,768,12.9813,12 Inferentia2
+ml.m4.xlarge,General Purpose,4,16,0.24,
+ml.m4.2xlarge,General Purpose,8,32,0.48,
+ml.m4.4xlarge,General Purpose,16,64,0.8,
+ml.m4.10xlarge,General Purpose,40,160,2.0,
+ml.m4.16xlarge,General Purpose,64,256,3.2,
+ml.m5.large,General Purpose,2,8,0.115,
+ml.m5.xlarge,General Purpose,4,16,0.23,
+ml.m5.2xlarge,General Purpose,8,32,0.46,
+ml.m5.4xlarge,General Purpose,16,64,0.768,
+ml.m5.12xlarge,General Purpose,48,192,2.304,
+ml.m5.24xlarge,General Purpose,96,384,4.608,
+ml.m6i.large,General Purpose,2,8,0.115,
+ml.m6i.xlarge,General Purpose,4,16,0.23,
+ml.m6i.2xlarge,General Purpose,8,32,0.46,
+ml.m6i.4xlarge,General Purpose,16,64,0.768,
+ml.m6i.8xlarge,General Purpose,32,128,1.536,
+ml.m6i.12xlarge,General Purpose,48,192,2.304,
+ml.m6i.16xlarge,General Purpose,64,256,3.072,
+ml.m6i.24xlarge,General Purpose,96,384,4.608,
+ml.m6i.32xlarge,General Purpose,128,512,6.144,
+ml.m7i.large,General Purpose,2,8,0.1207,
+ml.m7i.xlarge,General Purpose,4,16,0.2415,
+ml.m7i.2xlarge,General Purpose,8,32,0.483,
+ml.m7i.4xlarge,General Purpose,16,64,0.8064,
+ml.m7i.8xlarge,General Purpose,32,128,1.6128,
+ml.m7i.12xlarge,General Purpose,48,192,2.4192,
+ml.m7i.16xlarge,General Purpose,64,256,3.2256,
+ml.m7i.24xlarge,General Purpose,96,384,4.8384,
+ml.m7i.48xlarge,General Purpose,192,768,9.6768,
+ml.p3.2xlarge,GPU Instance,8,61,3.823,1 V100 GPU
+ml.p3.8xlarge,GPU Instance,32,244,12.24,4 V100 GPU
+ml.p3.16xlarge,GPU Instance,64,488,24.48,8 V100 GPU
+ml.r6i.large,Memory Optimized,2,16,0.152,
+ml.r6i.xlarge,Memory Optimized,4,32,0.304,
+ml.r6i.2xlarge,Memory Optimized,8,64,0.608,
+ml.r6i.4xlarge,Memory Optimized,16,128,1.008,
+ml.r6i.8xlarge,Memory Optimized,32,256,2.016,
+ml.r6i.12xlarge,Memory Optimized,48,384,3.024,
+ml.r6i.16xlarge,Memory Optimized,64,512,4.032,
+ml.r6i.24xlarge,Memory Optimized,96,768,6.048,
+ml.r6i.32xlarge,Memory Optimized,128,1024,8.064,
+ml.r7i.large,Memory Optimized,2,16,0.1596,
+ml.r7i.xlarge,Memory Optimized,4,32,0.3192,
+ml.r7i.2xlarge,Memory Optimized,8,64,0.6384,
+ml.r7i.4xlarge,Memory Optimized,16,128,1.2172,
+ml.r7i.8xlarge,Memory Optimized,32,256,2.4344,
+ml.r7i.12xlarge,Memory Optimized,48,384,3.6516,
+ml.r7i.16xlarge,Memory Optimized,64,512,4.8688,
+ml.r7i.24xlarge,Memory Optimized,96,768,7.3032,
+ml.r7i.48xlarge,Memory Optimized,192,1536,14.6064,
