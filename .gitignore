@@ -24,6 +24,7 @@ ENV/
 
 # Data files
 *.parquet
+*.json
 
 # OS files
 .DS_Store

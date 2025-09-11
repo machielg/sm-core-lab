@@ -9,6 +9,10 @@
 ## Assignment 3
 1. Add a batch transform job based on either the training job or hyper parameter job run 'best_training_job'
 
+## Assignment 4
+1. Create a serverless endpoint for the trained model (either regular or hyper tuned)
+2. Invoke the enpoint using the created "serverless_endpoint" object
+
 ## Outtakes
 Training, Tuning and Batch prediction jobs can be used in SageMaker Studio _and_ from local notebooks. 
 It offloads compute, possibly with more (GPU) resources than your local laptop or notebook instance, with some minimal overhead but with added traceability and clarity.
