@@ -10,7 +10,8 @@ from sagemaker_core.helper.session_helper import get_execution_role
 
 class CoreLabSession:
 
-    def __init__(self, framework: str, project_name: str, default_folder: str | None = None, create_run_folder: bool = False, aws_profile: str = None):
+    def __init__(self, framework: str, project_name: str, default_folder: str | None = None,
+                 create_run_folder: bool = False, aws_profile: str = None):
         self.framework = framework
         self.project_name = project_name
         self.session_timestamp = self._generate_timestamp()
@@ -85,7 +86,7 @@ class CoreLabSession:
 
     @property
     def transform_output_s3_uri(self):
-        return s3_path_join(self.base_s3_uri, "transform")
+        return s3_path_join(self.base_s3_uri, "transform_output")
 
     @property
     def jobs_output_s3_uri(self):
@@ -104,11 +105,11 @@ class CoreLabSession:
 
     @property
     def training_job_name(self):
-        return '-'.join([self.framework, self._generate_timestamp()])
+        return '-'.join([self.project_name, self.framework, self._generate_timestamp()])
 
     @property
     def tuning_job_name(self):
-        return '-'.join([self.framework, "tune", self.session_timestamp])
+        return '-'.join([self.project_name, self.framework, "tune", self.session_timestamp])
 
     @property
     def transform_job_name(self):
