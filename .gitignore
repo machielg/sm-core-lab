@@ -22,6 +22,9 @@ ENV/
 .ipynb_checkpoints/
 */.ipynb_checkpoints/
 
+# Pre-commit
+.pre-commit-config.yaml.lock
+
 # Data files
 *.parquet
 *.json
