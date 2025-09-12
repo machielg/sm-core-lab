@@ -12,6 +12,7 @@ dependencies = [
     "sagemaker>=2.251.1",
     "sagemaker-training>=5.1.0",
     "scikit-learn>=1.7.1",
+    "xgboost~=1.7.0",
 ]
 
 [build-system]
@@ -29,6 +30,8 @@ include = ["corelab*"]
 dev-dependencies = [
     "ipywidgets>=8.1.7",
     "jupyterlab",
+    "matplotlib>=3.10.6",
     "pip>=25.2",
     "ruff>=0.12.12",
+    "seaborn>=0.13.2",
 ]
