@@ -26,7 +26,7 @@ class CoreLabSession:
         try:
             role = get_execution_role()
             print("execution role available:", role)
-        except Exception as e:
+        except Exception:
             print("falling back to profile:", aws_profile)
             os.environ['AWS_PROFILE'] = aws_profile
         self.role = get_execution_role()
