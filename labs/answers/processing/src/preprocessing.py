@@ -9,6 +9,10 @@ from sklearn.model_selection import train_test_split
 
 # Mirrored in the calling notebook processing_inputs and processing_outputs
 OUTPUT_DIR = "/opt/ml/processing/output"
+# /opt/ml/processing/output/train
+TRAIN_OUTPUT_DIR = join(OUTPUT_DIR, "train")
+TEST_OUTPUT_DIR = join(OUTPUT_DIR, "test")
+VALIDATION_OUTPUT_DIR = join(OUTPUT_DIR, "validation")
 INPUT_DIR = "/opt/ml/processing/input/data"
 
 
@@ -48,10 +52,14 @@ def process():
     # test_target_column = test_data["Churn?_True."]
     test_data.drop(["Churn?_True."], axis=1, inplace=True)
 
+    # Create output dirs
+    for output_dir in [TRAIN_OUTPUT_DIR, TEST_OUTPUT_DIR, VALIDATION_OUTPUT_DIR]:
+        os.makedirs(output_dir, exist_ok=True)
+
     # Store all datasets locally
-    train_data.to_csv(join(OUTPUT_DIR, "train.csv"), header=False, index=False)
-    validation_data.to_csv(join(OUTPUT_DIR, "validation.csv"), header=False, index=False)
-    test_data.to_csv(join(OUTPUT_DIR, "test.csv"), header=False, index=False)
+    train_data.to_csv(join(TRAIN_OUTPUT_DIR, "train.csv"), header=False, index=False)
+    validation_data.to_csv(join(VALIDATION_OUTPUT_DIR, "validation.csv"), header=False, index=False)
+    test_data.to_csv(join(TEST_OUTPUT_DIR, "test.csv"), header=False, index=False)
 
 
 def _debug():

@@ -93,7 +93,7 @@ class CoreLabSession:
 
     @property
     def jobs_output_s3_uri(self):
-        return s3_path_join(self.base_s3_uri, "jobs")
+        return s3_path_join(self.base_s3_uri, '-'.join([self.project_name, self.session_timestamp]), "jobs")
 
     def retrieve_image(self, version: str, instance_type: str = "ml.m5.xlarge"):
         image = image_uris.retrieve(
