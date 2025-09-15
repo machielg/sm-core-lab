@@ -11,7 +11,7 @@ These assignments will make you familiar with the basic building blocks of SageM
 - Deploy models to scalable inference endpoints
 
 **Prerequisites:**
-- Complete the `xgboost_local.ipynb` notebook first
+- Complete the `xgboost_local.ipynb` notebook first - make sure you can run in it locally or in SageMaker Jupyter
 - Have access to SageMaker and S3
 - Familiarity with Python and basic ML concepts
 

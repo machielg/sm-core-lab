@@ -59,23 +59,26 @@ class CoreLabSession:
 
         return s3_path_join("s3://", bucket, prefix)
 
-    @property
-    def training_code_upload(self):
+
+    def code_upload_location(self, folder_name:str):
         """
             Returns: an object with two properties 'bucket' and 'prefix' for code uploading
         """
-        code_prefix = self.core_session.default_bucket_prefix.rstrip('/') + '/code/train'
-        obj = SimpleNamespace(bucket=self.core_session.default_bucket(), prefix=code_prefix)
+        code_prefix = s3_path_join(self.core_session.default_bucket_prefix, folder_name)
+        full_uri = s3_path_join(self.base_s3_uri, folder_name)
+        obj = SimpleNamespace(bucket=self.core_session.default_bucket(), prefix=code_prefix, s3_uri=full_uri)
         return obj
 
-    @property
-    def inference_code_upload(self):
-        """
-            Returns: an object with two properties 'bucket' and 'prefix' for code uploading
-        """
-        code_prefix = self.core_session.default_bucket_prefix.rstrip('/') + '/code/infer'
-        obj = SimpleNamespace(bucket=self.core_session.default_bucket(), prefix=code_prefix)
-        return obj
+    def upload_file(self, src_dir, src_file, dest_dir):
+        s3 = self.core_session.boto_session.client('s3')
+        src_path = s3_path_join(src_dir, src_file)
+        print("src_path:", src_path)
+        dest_path = s3_path_join(self.core_session.default_bucket_prefix, dest_dir, src_file)
+        print("dest_path:", dest_path)
+        s3.upload_file(src_path, self.core_session.default_bucket(), dest_path)
+        full_url = s3_path_join("s3://", self.core_session.default_bucket(), dest_path)
+        print("full_url:", full_url)
+        return full_url
 
     def update_timestamp(self):
         self.session_timestamp = self._generate_timestamp()
@@ -99,13 +102,13 @@ class CoreLabSession:
             version=version,
             py_version="py3",  # only for some frameworks
             instance_type=instance_type,
-            sagemaker_session=self.core_session
+            sagemaker_session=self.core_session,
         )
         return image
 
     @property
     def training_job_name(self):
-        return '-'.join([self.project_name, self.framework, self._generate_timestamp()])
+        return '-'.join([self.project_name, self.framework, "train", self._generate_timestamp()])
 
     @property
     def tuning_job_name(self):
@@ -114,6 +117,10 @@ class CoreLabSession:
     @property
     def transform_job_name(self):
         return "-".join([self.project_name, self.framework, "prediction", self.session_timestamp])
+
+    @property
+    def processing_job_name(self):
+        return "-".join([self.project_name, self.framework, "processing", self._generate_timestamp()])
 
     @property
     def model_name(self):
