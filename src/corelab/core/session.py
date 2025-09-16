@@ -45,7 +45,7 @@ class CoreLabSession:
         Returns:
             sagemaker.Session: SageMaker session object
         """
-        return SageMakerSession(boto_session=self.core_session.boto_session)
+        return SageMakerSession(boto_session=self.core_session.boto_session, default_bucket=self.core_session.default_bucket(), default_bucket_prefix=self.core_session.default_bucket_prefix)
 
     @property
     def base_s3_uri(self):

@@ -4,11 +4,13 @@ from os.path import join
 from pathlib import Path
 
 import pandas as pd
+import pkg_resources
 from sklearn.model_selection import train_test_split
 
 # Mirrored in the calling notebook processing_inputs and processing_outputs
 OUTPUT_DIR = "/opt/ml/processing/output"
 INPUT_DIR = "/opt/ml/processing/input/data"
+
 
 def process():
     _debug()
@@ -43,7 +45,7 @@ def process():
     validation_data, test_data = train_test_split(validation_data, test_size=0.33, random_state=42)
 
     # Remove and store the target column for the test data. This is used for calculating performance metrics after training, on unseen data.
-    test_target_column = test_data["Churn?_True."]
+    # test_target_column = test_data["Churn?_True."]
     test_data.drop(["Churn?_True."], axis=1, inplace=True)
 
     # Store all datasets locally
@@ -62,6 +64,12 @@ def _debug():
     print("\n=== PROGRAM EXECUTION ===")
     print(f"Script name: {sys.argv[0]}")
     print(f"Arguments: {sys.argv[1:]}")
+
+    try:
+        version = pkg_resources.get_distribution("sagemaker").version
+        print(f"✅ sagemaker version: {version}")
+    except pkg_resources.DistributionNotFound:
+        print("❌ sagemaker is not installed")
 
 
 if __name__ == '__main__':
