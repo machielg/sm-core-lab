@@ -51,7 +51,9 @@ timestamp = time.strftime("%Y-%m-%dT%H-%M-%S", time.gmtime())
 **Key Concept:** Use YOUR name in the training job name so you can find it in the console.
 
 #### 2. Data Preparation Challenge  
-**Your Task:** Upload your training data to S3 in a format the XGBoost container expects.
+**Your Task:** Upload the training data to S3 in a format the XGBoost container expects.
+
+The test data is here: "s3://sagemaker-example-files-prod-{region}/datasets/tabular/synthetic/churn.txt"
 
 **Research Methods:**
 - How does `session.upload_data(path)` work?
