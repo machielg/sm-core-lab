@@ -38,41 +38,55 @@ Transform the local XGBoost training from the notebook into a cloud-based SageMa
 from sagemaker_core.helper.session_helper import Session, get_execution_role, s3_path_join
 import time
 
-# Create your session
-session = Session()
-
-# Get your execution role  
-role = get_execution_role()
-
 # Create a timestamp for this experiment
 timestamp = time.strftime("%Y-%m-%dT%H-%M-%S", time.gmtime())
+
+# Create your session with a default folder structure
+# Everything you create will go under s3://your-bucket/your-name-essentials/
+session = Session(default_bucket_prefix=s3_path_join("your-name-essentials", timestamp))
+
+# Get your execution role
+role = get_execution_role()
+
+# Verify your setup
+print(f"Default bucket: {session.default_bucket()}")
+print(f"Bucket prefix: {session.default_bucket_prefix}")
+print(f"Region: {session.boto_region_name}")
 ```
 
-**Key Concept:** Use YOUR name in the training job name so you can find it in the console.
+**Key Concept:** Use YOUR name in both the bucket prefix and job names so you can find your resources in the console.
 
-#### 2. Data Preparation Challenge  
-**Your Task:** Upload the training data to S3 in a format the XGBoost container expects.
+#### 2. Data Preparation Challenge
+**Your Task:** Prepare and upload the training data to S3 in the format XGBoost expects.
 
-The test data is here: "s3://sagemaker-example-files-prod-{region}/datasets/tabular/synthetic/churn.txt"
+**Data Source Options:**
+1. Use the data you prepared in `xgboost_local.ipynb` (train.csv, validation.csv)
+2. Or download from AWS example: `s3://sagemaker-example-files-prod-{region}/datasets/tabular/synthetic/churn.txt` and split it yourself
+
+**Critical Data Format Requirements:**
+⚠️ **SageMaker XGBoost expects:**
+- Target column FIRST (leftmost position)
+- NO header row
+- All numeric values
+- CSV format
 
 **Research Methods:**
 - How does `session.upload_data(path)` work?
 - What does `session.default_bucket()` return?
 - How do you build S3 URIs using `s3_path_join()`?
 
-**Data Format Investigation:**
-- What format does SageMaker XGBoost expect? (Hint: Check the local notebook)
-- Where should the target column be positioned?
-- Should your CSV have headers?
-
 **Your Challenge:** Build S3 paths manually
 ```python
 # You'll need to construct paths like:
 base_path = s3_path_join("s3://", session.default_bucket(), "your-experiment-folder")
 train_s3_uri = session.upload_data("train.csv", key_prefix="your-experiment-folder")
+validation_s3_uri = session.upload_data("validation.csv", key_prefix="your-experiment-folder")
 ```
 
-**Common Mistake:** Forgetting that XGBoost expects the target column FIRST with no headers.
+**Validation Checkpoint:** Before uploading, open your CSV files and verify:
+- [ ] First column is the target (0 or 1 for churn)
+- [ ] No header row exists
+- [ ] All values are numeric
 
 #### 3. Training Job Architecture
 **Your Task:** Build a TrainingJob using sagemaker-core components.
@@ -137,7 +151,7 @@ from sagemaker import image_uris
 ### 📚 Research Resources
 - [SageMaker XGBoost Documentation](https://docs.aws.amazon.com/sagemaker/latest/dg/xgboost.html)
 - [TrainingJob API Reference](https://sagemaker-core.readthedocs.io/)
-- [SageMaker Core Shapes Documentation]()
+- [SageMaker Core GitHub Examples](https://github.com/aws/sagemaker-core)
 
 ---
 
@@ -199,9 +213,16 @@ Instead of guessing hyperparameters, let SageMaker try different combinations au
 #### 4. Reuse Your Training Job Definition
 **Your Task:** Adapt your TrainingJob configuration for hyperparameter tuning.
 
-**Key Insight:** The hyperparameter tuning job needs a "template" training job definition. Most settings stay the same, but hyperparameters become variable.
+**Key Insight:** The `HyperParameterTuningJob` needs a "template" training job definition. You'll use the same shapes (AlgorithmSpecification, Channel, ResourceConfig, etc.) from Assignment 1.
 
-**Question:** Can you reuse the channels and other configs from Assignment 1?
+**What Changes:**
+- Remove the `hyperparameters` from the static training job definition
+- The tuning job will inject different hyperparameter combinations automatically
+- Everything else (data channels, image, resources, role) stays the same
+
+**Research Challenge:** Look at the `HyperParameterTuningJob` class documentation. How do you pass the training job "template"? What parameter accepts your training configuration?
+
+**Hint:** You're not creating a new `TrainingJob` object - you're reusing the same configuration shapes within the tuning job definition.
 
 ### 🔍 Debugging Hyperparameter Tuning
 
@@ -273,6 +294,14 @@ Process a large dataset of predictions efficiently without running a real-time e
 - What's the difference between a TrainingJob's output and a Model resource?
 - Why does the Model need both an image and model_data_url?
 - Which model artifacts should you use - from Assignment 1 or your best hyperparameter tuning job?
+
+**Model Selection Strategy:**
+If you completed Assignment 2, use your best hyperparameter tuning job's model:
+- Check the tuning job's best training job metrics
+- Use that job's model artifact S3 location
+- The model.tar.gz location is in the training job's output
+
+If you only did Assignment 1, use those model artifacts.
 
 **Architecture Question:** A Model is like a blueprint. What does it specify?
 
@@ -417,22 +446,52 @@ Deploy your model to a serverless endpoint that automatically scales from zero t
 #### Method 1: Low-Level Testing
 **Your Challenge:** Use the raw SageMaker runtime to test your endpoint.
 
+**Getting Started:**
+```python
+import boto3
+
+# Create a SageMaker runtime client
+runtime = boto3.client('sagemaker-runtime', region_name=session.boto_region_name)
+
+# Prepare test data (CSV format, no target column)
+test_data = "0.5,0.3,0.8,..."  # Your feature values as CSV string
+
+# Research: What method on 'runtime' client should you use?
+# Hint: Look for a method that invokes an endpoint
+```
+
 **Think About:**
-- What data format does XGBoost expect?
+- What data format does XGBoost expect? (CSV string, JSON, etc.)
 - How do you handle the response from the endpoint?
 - What error handling should you implement?
 
-**Research:** Look up `sagemaker-runtime` client documentation. What methods are available?
+**Research:** Look up `boto3` SageMaker Runtime client documentation. What parameters does `invoke_endpoint()` require?
 
 #### Method 2: High-Level Testing
 **Your Challenge:** Use the SageMaker Predictor class for cleaner testing.
 
+**Getting Started:**
+```python
+from sagemaker.predictor import Predictor
+from sagemaker.serializers import CSVSerializer
+from sagemaker.deserializers import CSVDeserializer
+
+# Create a predictor pointing to your endpoint
+predictor = Predictor(
+    endpoint_name="your-endpoint-name",
+    sagemaker_session=session  # Use your SageMaker session
+)
+
+# Research: How do you configure serializers and deserializers?
+# Research: How do you call predict() on the predictor?
+```
+
 **Advantages to Discover:**
 - How does Predictor simplify the inference process?
-- What serialization/deserialization does it handle?
+- What serialization/deserialization does it handle automatically?
 - When might you prefer the low-level approach?
 
-**Hint:** The assignment mentions "no boilerplate" - figure out what boilerplate the Predictor eliminates.
+**Hint:** The Predictor eliminates manual CSV formatting and response parsing boilerplate.
 
 ### 🔍 Debugging Real-Time Inference
 
