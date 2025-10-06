@@ -77,10 +77,14 @@ print(f"Region: {session.boto_region_name}")
 
 **Your Challenge:** Build S3 paths manually
 ```python
-# You'll need to construct paths like:
+# You'll need to construct paths like (examples! don't copy-paste):
 base_path = s3_path_join("s3://", session.default_bucket(), "your-experiment-folder")
-train_s3_uri = session.upload_data("train.csv", key_prefix="your-experiment-folder")
-validation_s3_uri = session.upload_data("validation.csv", key_prefix="your-experiment-folder")
+```
+
+```python
+# core session has a function to uploading files (uses the default bucket and prefix) 
+train_s3_uri = session.upload_data("train.csv")
+validation_s3_uri = session.upload_data("validation.csv")
 ```
 
 **Validation Checkpoint:** Before uploading, open your CSV files and verify:
