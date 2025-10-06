@@ -479,7 +479,7 @@ dependencies = [
     { name = "itables" },
     { name = "pandas" },
     { name = "pandas-stubs" },
-    { name = "sagemaker" },
+    { name = "sagemaker", extra = ["local"] },
     { name = "sagemaker-training" },
     { name = "scikit-learn" },
     { name = "xgboost" },
@@ -490,6 +490,7 @@ dev = [
     { name = "ipywidgets" },
     { name = "jupyterlab" },
     { name = "matplotlib" },
+    { name = "nbstripout" },
     { name = "pip" },
     { name = "pre-commit" },
     { name = "ruff" },
@@ -502,7 +503,7 @@ requires-dist = [
     { name = "itables", specifier = ">=2.5.2" },
     { name = "pandas", specifier = ">=2.3.2" },
     { name = "pandas-stubs", specifier = "==2.3.2.250827" },
-    { name = "sagemaker", specifier = ">=2.251.1" },
+    { name = "sagemaker", extras = ["local"], specifier = ">=2.251.1" },
     { name = "sagemaker-training", specifier = ">=5.1.0" },
     { name = "scikit-learn", specifier = ">=1.7.1" },
     { name = "xgboost", specifier = "~=1.7.0" },
@@ -513,6 +514,7 @@ dev = [
     { name = "ipywidgets", specifier = ">=8.1.7" },
     { name = "jupyterlab" },
     { name = "matplotlib", specifier = ">=3.10.6" },
+    { name = "nbstripout", specifier = ">=0.8.1" },
     { name = "pip", specifier = ">=25.2" },
     { name = "pre-commit", specifier = ">=3.5.0" },
     { name = "ruff", specifier = ">=0.12.12" },
@@ -1581,6 +1583,18 @@ wheels = [
 ]
 
 [[package]]
+name = "nbstripout"
+version = "0.8.1"
+source = { registry = "https://pypi.org/simple" }
+dependencies = [
+    { name = "nbformat" },
+]
+sdist = { url = "https://files.pythonhosted.org/packages/92/6e/05d7e0e35598bd0d423167295f978005912a2dcd137c88ebf36e34047dc7/nbstripout-0.8.1.tar.gz", hash = "sha256:eaac8b6b4e729e8dfe1e5df2c0f8ba44abc5a17a65448f0480141f80be230bb1", size = 26399, upload-time = "2024-11-17T10:38:33.275Z" }
+wheels = [
+    { url = "https://files.pythonhosted.org/packages/cf/91/93b459c456b0e4389b2b3ddb3b82cd401d022691334a0f06e92c2046e780/nbstripout-0.8.1-py2.py3-none-any.whl", hash = "sha256:79a8c8da488d98c54c112fa87185045f0271a97d84f1d46918d6a3ee561b30e7", size = 16329, upload-time = "2024-11-17T10:38:31.803Z" },
+]
+
+[[package]]
 name = "nest-asyncio"
 version = "1.6.0"
 source = { registry = "https://pypi.org/simple" }
@@ -2409,6 +2423,13 @@ dependencies = [
 sdist = { url = "https://files.pythonhosted.org/packages/ee/d0/a352f8e9e90ff07e5f0946c469f622b536ca2a4e141eef941430b7088cb4/sagemaker-2.251.1.tar.gz", hash = "sha256:a74f83154089418fef4f63befc33113e88ff181d6db52e33ad81002064dc1d7c", size = 1228445, upload-time = "2025-08-29T23:56:22.972Z" }
 wheels = [
     { url = "https://files.pythonhosted.org/packages/45/b9/1e7c7bae6ccc94d75de26dd6c2794c31b27b5f90a9f497ba9c8477fdb132/sagemaker-2.251.1-py3-none-any.whl", hash = "sha256:7d40c83210a1ec1108bfb277f1c961257acddef9cd781e16ef0c09296e1b23e1", size = 1689867, upload-time = "2025-08-29T23:56:20.077Z" },
+]
+
+[package.optional-dependencies]
+local = [
+    { name = "docker" },
+    { name = "pyyaml" },
+    { name = "urllib3" },
 ]
 
 [[package]]
