@@ -34,6 +34,10 @@ def input_fn(request_body, content_type):
 
     Same pattern as lab2-boyl, just wraps result in XGBoost DMatrix.
     Handles structured arrays from CSV decoding by converting to regular 2D array.
+
+    IMPORTANT: Sets feature names to match what the trained model expects.
+    The model was trained with pandas DataFrames which automatically assigns
+    column names as "1", "2", "3", etc. when using integer column indices.
     """
     data = decoder.decode(request_body, content_type)
 
@@ -41,7 +45,13 @@ def input_fn(request_body, content_type):
     if data.dtype.names:
         data = np.column_stack([data[name] for name in data.dtype.names])
 
-    return xgb.DMatrix(data.astype('float32'))
+    # Create feature names matching what the model expects (1, 2, 3, ..., 99)
+    # The model has 99 features based on the error message
+    num_features = data.shape[1]
+    feature_names = [str(i) for i in range(1, num_features + 1)]
+
+    # Create DMatrix with feature names
+    return xgb.DMatrix(data.astype('float32'), feature_names=feature_names)
 
 
 def predict_fn(input_data, model):
