@@ -42,10 +42,10 @@ xgb_estimator = PyTorch(
     instance_type='ml.m5.xlarge',
     framework_version='2.x',
     hyperparameters={
-        'max_depth': 5,
+        'max-depth': 5,
         'eta': 0.2,
         'objective': 'binary:logistic',
-        'num_round': 100
+        'num-round': 100
     }
 )
 ```

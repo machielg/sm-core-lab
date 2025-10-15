@@ -169,7 +169,7 @@ def train():
 
     # Save model
     print("\n💾 Saving model...")
-    model_path = os.path.join(model_dir, 'xgboost-model')
+    model_path = os.path.join(model_dir, 'xgboost-model.bin')
     model.save_model(model_path)
     print(f"✅ Model saved to {model_path}")
 

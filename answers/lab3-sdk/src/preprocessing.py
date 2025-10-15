@@ -1,3 +1,4 @@
+import argparse
 import os
 import sys
 from os.path import join
@@ -16,7 +17,19 @@ VALIDATION_OUTPUT_DIR = join(OUTPUT_DIR, "validation")
 INPUT_DIR = "/opt/ml/processing/input/data"
 
 
-def process():
+def parse_args():
+    """Parse command-line arguments."""
+    parser = argparse.ArgumentParser(description="Preprocess customer churn data")
+    parser.add_argument(
+        "--train-test-split",
+        type=float,
+        default=0.33,
+        help="Test size for train/validation split (default: 0.33)"
+    )
+    return parser.parse_args()
+
+
+def process(test_split_size):
     _debug()
 
     churn_file = Path(INPUT_DIR, 'churn.txt')
@@ -43,7 +56,7 @@ def process():
     model_data = model_data.astype(float)
 
     # Split data into train and validation datasets
-    train_data, validation_data = train_test_split(model_data, test_size=0.33, random_state=42)
+    train_data, validation_data = train_test_split(model_data, test_size=test_split_size, random_state=42)
 
     # Further split the validation dataset into test and validation datasets.
     validation_data, test_data = train_test_split(validation_data, test_size=0.33, random_state=42)
@@ -79,6 +92,13 @@ def _debug():
     except pkg_resources.DistributionNotFound:
         print("❌ sagemaker is not installed")
 
+    try:
+        version = pkg_resources.get_distribution("xgboost").version
+        print(f"✅ xgboost version: {version}")
+    except pkg_resources.DistributionNotFound:
+        print("❌ xgboost is not installed")
+
 
 if __name__ == '__main__':
-    process()
+    args = parse_args()
+    process(test_split_size=args.train_test_split)

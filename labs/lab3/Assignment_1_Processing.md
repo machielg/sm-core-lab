@@ -142,6 +142,11 @@ pytorch_processor = PyTorchProcessor(
 4. Why specify `py_version`? What Python versions are available?
 
 **Running the Processing Job:**
+
+If you want to use the AWS churn dataset directly you, the url is
+
+`f"s3://sagemaker-example-files-prod-{lab_session.region}/datasets/tabular/synthetic/churn.txt"`
+
 ```python
 # Your Task: Figure out how to configure ProcessingInput and ProcessingOutput
 pytorch_processor.run(
