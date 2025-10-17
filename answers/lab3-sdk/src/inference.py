@@ -22,7 +22,7 @@ def model_fn(model_dir):
     Returns:
         xgboost.Booster: Loaded XGBoost model
     """
-    model_path = os.path.join(model_dir, 'xgboost-model')
+    model_path = os.path.join(model_dir, 'xgboost-model.bin')
     model = xgb.Booster()
     model.load_model(model_path)
     return model
