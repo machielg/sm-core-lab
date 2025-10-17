@@ -12,7 +12,7 @@ Welcome to the SageMaker Pipelines learning guide! This assignment will teach yo
 - Learn pipeline versioning and execution monitoring
 
 **Prerequisites:**
-- Complete Assignments 1 (SageMaker Essentials) and 2 (BYOL)
+- Complete (most) assignments in **lab3**
 - Understanding of SageMaker Training Jobs and Processing Jobs
 - Access to SageMaker Studio or notebook environment
 - Familiarity with the customer churn dataset
