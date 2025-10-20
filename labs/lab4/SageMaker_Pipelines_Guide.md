@@ -123,7 +123,7 @@ step_process = ProcessingStep(
 #### Your Tasks:
 
 1. **Create an Estimator**:
-   - Use generic `Estimator` class with XGBoost image URI
+   - Use `PyTorch` class with a recent framework and python version
    - Configure hyperparameters (some static, some from parameters)
    - Set output path for model artifacts
 
