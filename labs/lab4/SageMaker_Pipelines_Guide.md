@@ -69,9 +69,8 @@ from sagemaker.workflow.parameters import (
 
 #### Your Tasks:
 1. **Choose a Processor**: Research and select between:
-   - `XGBoostProcessor` - Framework-aware, handles dependencies better
-   - `ScriptProcessor` - More flexible, any container image
-   - `SKLearnProcessor` - Good for scikit-learn preprocessing
+   - `XGBoostProcessor` - XGBoost native but outdated
+   - `PyTorchProcessor` - Pytorch preinstalled but up-to-date
 
 2. **Create Processing Script** (`preprocessing.py`):
    ```python
@@ -93,7 +92,7 @@ from sagemaker.workflow.parameters import (
 #### Implementation Pattern:
 ```python
 # Create processor
-processor = XGBoostProcessor(...)
+processor = PyTorchProcessor(...)
 
 # Define step arguments (not executed immediately!)
 step_args = processor.run(

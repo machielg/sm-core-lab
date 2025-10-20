@@ -25,12 +25,19 @@ def extract_model(model_dir: Path) -> Path:
         raise FileNotFoundError(f"Could not find model artifact at {model_tar}")
 
     with tarfile.open(model_tar) as tar:
-        tar.extractall(path=model_dir)
+        tar.extractall(path=model_dir, filter='data')  # Added filter for Python 3.14 compatibility
 
+    # Search for model files, prioritizing model files over metadata
     for candidate in model_dir.rglob("*"):
         if candidate.is_file() and candidate.name in {"xgboost-model", "model.bin"}:
             return candidate
-        if candidate.suffix in {".json", ".bst", ".bin", ".model", ".xgb"}:
+        # Prioritize .bin, .bst, .model, .xgb files (but not metadata.json)
+        if candidate.suffix in {".bst", ".bin", ".model", ".xgb"} and candidate.name != "metadata.json":
+            return candidate
+
+    # Only accept .json files if they're not metadata.json (for JSON format models)
+    for candidate in model_dir.rglob("*.json"):
+        if candidate.is_file() and candidate.name != "metadata.json":
             return candidate
 
     raise FileNotFoundError("Could not locate a supported XGBoost model file after extraction")
