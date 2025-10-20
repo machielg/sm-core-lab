@@ -160,6 +160,15 @@ class CoreLabSession:
         """
         return s3_path_join(self.base_s3_uri, '-'.join([self.project_name, self.session_timestamp]), "jobs")
 
+    @property
+    def pipeline_output_s3_uri(self):
+        """Get the S3 URI for job outputs with project and timestamp.
+
+        Returns:
+            str: S3 URI path for job outputs in format {base}/{project}-{timestamp}/jobs.
+        """
+        return s3_path_join(self.base_s3_uri, "pipeline_output")
+
     def retrieve_image(self, version: str, instance_type: str = "ml.m5.xlarge"):
         """Retrieve the Docker image URI for the configured framework.
 
